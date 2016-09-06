@@ -4,8 +4,10 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -14,6 +16,9 @@ import android.view.View;
 public class myCanvas extends View {
 
     private Paint mPaint = new Paint();
+
+    private int mwidth;
+    private int mheight;
 
     public myCanvas(Context context) {
         this(context, null);
@@ -33,6 +38,7 @@ public class myCanvas extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+//        canvas.drawColor(Color.BLUE);
 /*
         //颜色
         canvas.drawColor(Color.BLUE);
@@ -76,7 +82,7 @@ public class myCanvas extends View {
         //画圆
         canvas.drawCircle(500,500,50,mPaint);
 */
-
+/*
         //画圆弧
         RectF rectF3 = new RectF(100,100,400,400);
         // 绘制背景矩形
@@ -96,6 +102,55 @@ public class myCanvas extends View {
 
         // 绘制圆弧
         mPaint.setColor(Color.BLUE);
-        canvas.drawArc(rectF2,0,90,true,mPaint);
+        canvas.drawArc(rectF2,0,90,true,mPaint);*/
+
+        RectF rectF2 = new RectF(100,500,400,800);
+        // 绘制背景矩形
+        mPaint.setColor(Color.GRAY);
+        canvas.drawRect(rectF2, mPaint);
+
+        mPaint.setColor(Color.RED);
+        canvas.drawArc(rectF2, 0, 90, true, mPaint);
+        Log.i("LHD", "width " + mwidth + "  height " + mheight);
+        canvas.translate(mwidth / 2, mheight / 2);  // 移动坐标系到屏幕中心
+        mPaint.setColor(Color.YELLOW);
+        mPaint.setStyle(Paint.Style.STROKE);    // 填充模式 - 描边  必须设置成这种模式才能看到path
+        mPaint.setStrokeWidth(10);              // 边框宽度 - 10
+        Path path = new Path();                     // 创建Path
+
+        path.lineTo(200, 200);                      // lineTo
+
+        path.moveTo(200, 100);                       // moveTo
+
+        path.lineTo(200, 0);                         // lineTo
+
+        canvas.drawPath(path, mPaint);              // 绘制Path
+
+        Log.i("LHD","width "+mwidth+"  height "+mheight);
+//        canvas.translate(300, 300);  // 移动坐标系到屏幕中心
+
+        Path path2 = new Path();                     // 创建Path
+
+        path2.lineTo(200, 200);                      // lineTo
+
+        path2.moveTo(200,100);                       // moveTo
+
+        path2.lineTo(200,0);                         // lineTo
+
+        canvas.drawPath(path2, mPaint);              // 绘制Path
+
     }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        mwidth = w;
+        mheight = h;
+    }
+
 }
